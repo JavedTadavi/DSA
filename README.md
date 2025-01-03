@@ -14,7 +14,7 @@ To get started with the code, clone the repository using the following command:
 
 bash
 Copy code
-git clone git clone https://github.com/JavedTadavi/DSA-Practice-Code.git
+git clone git clone [https://github.com/JavedTadavi/DSA-Practice-Code.git](https://github.com/JavedTadavi/DSA)
 After cloning the repository, navigate to the folder and compile the C++ files using your preferred IDE or a C++ compiler.
 
 Usage
