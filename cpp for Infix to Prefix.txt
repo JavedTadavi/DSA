@@ -1,0 +1,51 @@
+#include <iostream>
+#include <stack>
+#include <string>
+using namespace std;
+
+int main() {
+    char p[30], opr[2];
+    stack<string> stk;
+
+    // Take input postfix expression
+    cout << "\nEnter the postfix expression: ";
+    cin >> p;
+
+    int i = 0;
+
+    // Process each character of the postfix expression
+    while (p[i] != '\0') {
+        // If the character is an operator
+        if (p[i] == '+' || p[i] == '-' || p[i] == '*' || p[i] == '/' || p[i] == '^') {
+            // Pop the two operands from the stack
+            string op2 = stk.top(); stk.pop();
+            string op1 = stk.top(); stk.pop();
+
+            // Create the infix expression in the form (op1 operator op2)
+            string temp = "(" + op1 + p[i] + op2 + ")";
+
+            // Push the result back into the stack
+            stk.push(temp);
+        } else {
+            // If it's an operand, push it to the stack
+            string temp(1, p[i]);  // Convert the character to a string
+            stk.push(temp);
+        }
+        i++;
+    }
+
+    // The top of the stack will contain the infix expression
+    cout << "\nInfix expression is: " << stk.top() << endl;
+
+    return 0;
+}
+
+
+
+
+
+/* Output: 
+ 
+  Enter the postfix expression: ab+c* 
+                     
+   Infix expression is: (a+b)*c*/

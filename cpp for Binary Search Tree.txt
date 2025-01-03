@@ -1,0 +1,127 @@
+#include <iostream>
+#include <cstdlib>
+using namespace std;
+
+// Definition of the BST node
+struct Node {
+    int data;
+    Node* left_child;
+    Node* right_child;
+
+    Node(int value) {
+        data = value;
+        left_child = NULL;  // Replace nullptr with NULL
+        right_child = NULL; // Replace nullptr with NULL
+    }
+};
+
+// Function to create a new node
+Node* new_node(int x) {
+    return new Node(x);
+}
+
+// Function to search for a value in the BST
+Node* search(Node* root, int x) {
+    if (root == NULL || root->data == x)  // Replace nullptr with NULL
+        return root;
+
+    if (x > root->data)
+        return search(root->right_child, x);
+    else
+        return search(root->left_child, x);
+}
+
+// Function to insert a value into the BST
+Node* insert(Node* root, int x) {
+    if (root == NULL)  // Replace nullptr with NULL
+        return new_node(x);
+
+    if (x > root->data)
+        root->right_child = insert(root->right_child, x);
+    else
+        root->left_child = insert(root->left_child, x);
+
+    return root;
+}
+
+// Function to find the minimum value in the BST
+Node* find_minimum(Node* root) {
+    if (root == NULL)  // Replace nullptr with NULL
+        return NULL;
+
+    if (root->left_child != NULL)  // Replace nullptr with NULL
+        return find_minimum(root->left_child);
+
+    return root;
+}
+
+// Function to delete a value from the BST
+Node* delete_node(Node* root, int x) {
+    if (root == NULL)  // Replace nullptr with NULL
+        return NULL;
+
+    if (x > root->data)
+        root->right_child = delete_node(root->right_child, x);
+    else if (x < root->data)
+        root->left_child = delete_node(root->left_child, x);
+    else {
+        // Node with no children
+        if (root->left_child == NULL && root->right_child == NULL) {  // Replace nullptr with NULL
+            delete root;
+            return NULL;
+        }
+        // Node with one child
+        else if (root->left_child == NULL || root->right_child == NULL) {  // Replace nullptr with NULL
+            Node* temp = (root->left_child == NULL) ? root->right_child : root->left_child;  // Replace nullptr with NULL
+            delete root;
+            return temp;
+        }
+        // Node with two children
+        else {
+            Node* temp = find_minimum(root->right_child);
+            root->data = temp->data;
+            root->right_child = delete_node(root->right_child, temp->data);
+        }
+    }
+    return root;
+}
+
+// Function for in-order traversal
+void inorder(Node* root) {
+    if (root != NULL) {  // Replace nullptr with NULL
+        inorder(root->left_child);
+        cout << root->data << " ";
+        inorder(root->right_child);
+    }
+}
+
+int main() {
+    Node* root = new_node(20);
+    insert(root, 5);
+    insert(root, 1);
+    insert(root, 15);
+    insert(root, 9);
+    insert(root, 7);
+    insert(root, 12);
+    insert(root, 30);
+    insert(root, 25);
+    insert(root, 40);
+    insert(root, 45);
+    insert(root, 42);
+
+    cout << "In-order traversal before deletion: ";
+    inorder(root);
+    cout << endl;
+
+    // Deleting nodes
+    root = delete_node(root, 1);
+    root = delete_node(root, 40);
+    root = delete_node(root, 45);
+    root = delete_node(root, 9);
+
+    cout << "In-order traversal after deletion: ";
+    inorder(root);
+    cout << endl;
+
+    return 0;
+}

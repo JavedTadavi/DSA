@@ -1,0 +1,132 @@
+#include <iostream> 
+using namespace std; 
+ 
+    int main() { 
+    int a[10], b[10], c[10]; 
+    int m, n, k = 0, k1, i, j; 
+ 
+    cout << "\n\tPolynomial Addition\n"; 
+    cout << "\t===================\n"; 
+ 
+    // Input for the first polynomial 
+    cout << "\n\tEnter the number of terms of the polynomial: "; 
+    cin >> m; 
+    cout << "\n\tEnter the degrees and coefficients: "; 
+    for (i = 0; i < 2 * m; i++) { 
+        cin >> a[i]; 
+    } 
+ 
+    // Display the first polynomial 
+    cout << "\n\tFirst polynomial is: "; 
+    k1 = 0; 
+    if (a[k1 + 1] == 1) { 
+        cout << "x^" << a[k1]; 
+    } else { 
+        cout << a[k1 + 1] << "x^" << a[k1]; 
+    } 
+    k1 += 2; 
+    while (k1 < 2 * m) { 
+        cout << "+" << a[k1 + 1] << "x^" << a[k1]; 
+        k1 += 2; 
+      } 
+ 
+    
+                    // Input for the second polynomial 
+                     cout << "\n\n\tEnter the number of terms of the second polynomial: "; 
+    cin >> n; 
+      cout << "\n\tEnter the degrees and coefficients: "; 
+      for (j = 0; j < 2 * n; j++) { 
+          cin >> b[j]; 
+      } 
+ 
+      // Display the second polynomial 
+      cout << "\n\tSecond polynomial is: "; 
+      k1 = 0; 
+      if (b[k1 + 1] == 1) { 
+          cout << "x^" << b[k1]; 
+      } else { 
+          cout << b[k1 + 1] << "x^" << b[k1]; 
+       } 
+      k1 += 2; 
+      while (k1 < 2 * n) { 
+          cout << "+" << b[k1 + 1] << "x^" << b[k1]; 
+          k1 += 2; 
+      } 
+ 
+      // Add the two polynomials 
+      i = 0; 
+      j = 0; 
+      while (m > 0 && n > 0) { 
+          if (a[i] == b[j]) { 
+             c[k + 1] = a[i + 1] + b[j + 1]; 
+                     c[k] = a[i]; 
+                      m--; 
+             n--; 
+             i += 2; 
+             j += 2; 
+          } else if (a[i] > b[j]) { 
+              c[k + 1] = a[i + 1]; 
+             c[k] = a[i]; 
+              m--; 
+             i += 2; 
+          } else { 
+             c[k + 1] = b[j + 1]; 
+             c[k] = b[j]; 
+              n--; 
+             j += 2; 
+        
+ } 
+          k += 2; 
+      } 
+ 
+      // Add remaining terms of the first polynomial 
+      while (m > 0) { 
+          c[k + 1] = a[i + 1]; 
+          c[k] = a[i]; 
+          k += 2; 
+          i += 2; 
+          m--; 
+      } 
+ 
+      // Add remaining terms of the second polynomial 
+      while (n > 0) { 
+           c[k + 1] = b[j + 1]; 
+          c[k] = b[j]; 
+         k += 2; 
+          j += 2; 
+          n--; 
+      } 
+ 
+      // Display the resulting polynomial 
+      cout << "\n\n\tSum of the two polynomials is: "; 
+      k1 = 0; 
+      if (c[k1 + 1] == 1) { 
+          cout << "x^" << c[k1]; 
+      } else { 
+          cout << c[k1 + 1] << "x^" << c[k1]; 
+      } 
+      k1 += 2; 
+      while (k1 < k) { 
+          if (c[k1 + 1] == 1) { 
+              cout << "+x^" << c[k1]; 
+          } else { 
+              cout << "+" << c[k1 + 1] << "x^" << c[k1]; 
+          } 
+          k1 += 2; 
+      } 
+ 
+      cout << endl; 
+      return 0; 
+}
+ //Output: 
+//Enter the number of terms of the polynomial: 2 
+//Enter the degrees and coefficients: 2 3 0 4 
+ 
+//First polynomial is: 3x^2+4x^0 
+ 
+//Enter the number of terms of the second polynomial: 2 
+//Enter the degrees and coefficients: 3 1 2 2 
+ 
+//Second polynomial is: 1x^3+2x^2 
+ 
+//Sum of the two polynomials is: 1x^3+5x^2+4x^0

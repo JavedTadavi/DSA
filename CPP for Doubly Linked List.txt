@@ -1,0 +1,129 @@
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+using namespace std;
+
+class node {
+    int info;
+    node *left, *right;
+
+public:
+    node() : info(0), left(NULL), right(NULL) {}
+
+    void insert();
+    void display();
+    void del();
+};
+
+node *start = NULL;
+
+void node::insert() {
+    int item;
+    cout << "\nEnter element: ";
+    cin >> item;
+
+    // Create a new node
+    node *p = new node;
+    p->info = item;
+
+    if (start == NULL) {
+        start = p;
+    } else {
+        node *temp = start;
+
+        // Traverse to the last node
+        while (temp->right != NULL)
+            temp = temp->right;
+
+        temp->right = p;
+        p->left = temp;
+    }
+}
+
+void node::display() {
+    if (start == NULL) {
+        cout << "\nDoubly Linked List is empty.";
+        return;
+    }
+
+    cout << "\nNodes in DLL are: ";
+    node *move = start;
+
+    // Traverse and display the list
+    while (move != NULL) {
+        cout << move->info << "\t";
+        move = move->right;
+    }
+}
+
+void node::del() {
+    if (start == NULL) {
+        cout << "\nDoubly Linked List is empty.";
+        return;
+    }
+
+    // Delete the first node
+    node *temp = start;
+    start = temp->right;
+
+    if (start != NULL)
+        start->left = NULL;
+
+    cout << "\nDeleted element is: " << temp->info;
+    delete temp;
+}
+
+int main() {
+    node n;
+    int ch;
+
+    cout << "\n1. Insert\n2. Display\n3. Delete\n4. Exit";
+
+    while (true) {
+        cout << "\nEnter choice: ";
+        cin >> ch;
+
+        switch (ch) {
+        case 1:
+            n.insert();
+            break;
+        case 2:
+            n.display();
+            break;
+        case 3:
+            n.del();
+            break;
+        case 4:
+            exit(0);
+        default:
+            cout << "\nInvalid choice!";
+        }
+    }
+
+    getch();
+    return 0;
+}
+
+
+
+/*Output :  
+1. Insert 2. Display 3. Delete 4. Exit 
+Enter choice: 1 
+Enter element: 10 
+ 
+Enter choice: 1 
+Enter element: 20 
+ 
+Enter choice: 1 
+Enter element: 30 
+ 
+Enter choice: 2 
+Nodes in DLL are: 10    20    30 
+ 
+Enter choice: 3 
+Deleted element is: 10 
+ 
+Enter choice: 2 
+Nodes in DLL are: 20    30 
+ 
+Enter choice: 4 */

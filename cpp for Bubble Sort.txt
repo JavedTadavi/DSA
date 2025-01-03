@@ -1,0 +1,67 @@
+#include <iostream> 
+using namespace std; 
+ 
+/* 
+ * Function to swap two variables 
+ */ 
+void swap(int *a, int *b) { 
+    int temp = *a; 
+    *a = *b; 
+    *b = temp; 
+} 
+ 
+/* 
+ * Selection sort function 
+ */ 
+void selectionSort(int arr[], int size) { 
+    int i, j; 
+    for (i = 0; i < size; i++) { 
+        for (j = i; j < size; j++) { 
+            if (arr[i] > arr[j]) 
+                swap(&arr[i], &arr[j]); 
+        } 
+    } 
+} 
+ 
+/* 
+ * Main Function 
+ */ 
+int main() { 
+      int array[10], size; 
+ 
+    cout << "How many numbers you want to sort: "; 
+    cin >> size; 
+ 
+       
+ 
+                      cout << "\nEnter " << size << " numbers:\n"; 
+       
+for (int i = 0; i < size; i++) 
+          cin >> array[i]; 
+ 
+      selectionSort(array, size); 
+ 
+      cout << "\nSorted array is:\n"; 
+      for (int i = 0; i < size; i++) 
+          cout << array[i] << endl; 
+ 
+      return 0; 
+}
+
+
+
+/*Output: 
+How many numbers you want to sort: 5 
+ 
+Enter 5 numbers: 
+42 
+17 
+33 
+8 
+25 
+Sorted array is: 
+8 
+17 
+25 
+33 
+42*/

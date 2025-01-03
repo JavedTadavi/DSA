@@ -1,0 +1,80 @@
+#include <iostream> 
+using namespace std; 
+ 
+int n, i, j, visited[10], queue[10], front = -1, rear = -1; 
+int adj[10][10]; 
+ 
+void bfs(int v) { 
+    // Mark the starting node as visited 
+    visited[v] = 1; 
+    queue[++rear] = v; // Enqueue the starting vertex 
+ 
+    while (front < rear) { 
+        // Dequeue a vertex and explore its adjacent nodes 
+        int current = queue[++front]; 
+ 
+        // Explore all adjacent vertices of the current vertex 
+        for (i = 1; i <= n; i++) { 
+            if (adj[current][i] && !visited[i]) { 
+                queue[++rear] = i;  // Enqueue the unvisited adjacent vertex 
+                visited[i] = 1;      // Mark it as visited 
+            } 
+        } 
+    } 
+} 
+ 
+int main() { 
+    int v; 
+    cout << "Enter the number of vertices: "; 
+    cin >> n; 
+ 
+    // Initialize visited array and queue 
+    for (i = 1; i <= n; i++) { 
+        visited[i] = 0; 
+        
+ queue[i] = 0; 
+    } 
+ 
+    cout << "Enter graph data in matrix form:\n"; 
+    for (i = 1; i <= n; i++) { 
+        for (j = 1; j <= n; j++) { 
+            cin >> adj[i][j]; 
+        } 
+    } 
+ 
+    cout << "Enter the starting vertex: "; 
+    cin >> v; 
+ 
+      bfs(v); 
+ 
+    cout << "The nodes which are reachable are:\n"; 
+    bool allVisited = true; 
+    for (i = 1; i <= n; i++) { 
+        if (visited[i]) { 
+            cout << i << "\t"; 
+        } else { 
+            allVisited = false; 
+        } 
+    } 
+ 
+    if (!allVisited) { 
+        cout << "\nBFS is not possible. Not all nodes are reachable.\n"; 
+    } 
+ 
+    return 0; 
+}
+
+
+
+/*Output: 
+ 
+Enter the number of vertices: 5 
+Enter graph data in matrix form: 
+0 1 0 0 1 
+1 0 1 0 0 
+1 1 0 1 0 
+0 0 1 0 0 
+1 0 0 0 0 
+Enter the starting vertex: 1 
+The node which are reachable are: 
+1 2 3 4 5*/

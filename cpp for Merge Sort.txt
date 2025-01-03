@@ -1,0 +1,114 @@
+#include <iostream> 
+#include <vector> 
+using namespace std; 
+ 
+// Merge function to merge two halves 
+void merge(vector<int>& arr, int left, int mid, int right) { 
+    int size1 = mid - left + 1; 
+    int size2 = right - mid; 
+ 
+    // Create temporary arrays 
+    vector<int> Left(size1), Right(size2); 
+ 
+    // Copy data to temp arrays 
+    for (int i = 0; i < size1; i++) { 
+        Left[i] = arr[left + i]; 
+    } 
+    for (int j = 0; j < size2; j++) { 
+        Right[j] = arr[mid + 1 + j]; 
+    } 
+ 
+    // Merge the temp arrays back into arr 
+    int i = 0, j = 0, k = left; 
+    while (i < size1 && j < size2) { 
+        if (Left[i] <= Right[j]) { 
+            arr[k] = Left[i]; 
+            i++; 
+        } else { 
+            arr[k] = Right[j]; 
+            j++; 
+        } 
+        k++; 
+    } 
+ 
+    // Copy remaining elements of Left[] if any 
+     
+while (i < size1) { 
+        arr[k] = Left[i]; 
+        i++; 
+        k++; 
+   
+  } 
+ 
+    // Copy remaining elements of Right[] if any 
+    while (j < size2) { 
+        arr[k] = Right[j]; 
+        j++; 
+        k++; 
+    } 
+} 
+ 
+ 
+// Merge Sort function to divide and conquer 
+ 
+void mergeSort(vector<int>& arr, int left, int right) { 
+    if (left < right) { 
+        int mid = left + (right - left) / 2; 
+ 
+        // Recursively divide the array into two halves 
+        mergeSort(arr, left, mid); 
+        mergeSort(arr, mid + 1, right); 
+ 
+        // Merge the two halves 
+        merge(arr, left, mid, right); 
+    } 
+} 
+ 
+int main() { 
+      int size; 
+    
+ cout << "Enter the size: "; 
+    cin >> size; 
+ 
+    vector<int> arr(size); 
+    cout << "Enter the elements of the array:\n"; 
+    for (int i = 0; i < size; i++) { 
+        cin >> arr[i]; 
+    } 
+ 
+    // Call Merge Sort 
+     
+mergeSort(arr, 0, size - 1); 
+ 
+    // Print the sorted array 
+    cout << "The sorted array is:\n"; 
+     
+ 
+ 
+for (int i = 0; i < size; i++) { 
+         
+cout << arr[i] << endl; 
+    } 
+ 
+    return 0; 
+}
+
+
+
+/*Output: 
+  Enter the size: 6 
+Enter the elements of the array: 
+34 
+7 
+23 
+90 
+12 
+5 
+ 
+The sorted array is: 
+5 
+7 
+12 
+23 
+34 
+90*/

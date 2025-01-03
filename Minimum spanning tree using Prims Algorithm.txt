@@ -1,0 +1,76 @@
+#include <iostream> 
+  #include <climits> // for INT_MAX 
+ 
+  using namespace std; 
+ 
+  int main() { 
+      int a, b, n, ne = 1, i, j, min, cost[10][10], mincost = 0; 
+ 
+      // Taking the number of vertices as input 
+      cout << "\nEnter the number of vertices: "; 
+      cin >> n; 
+ 
+      cout << "\nEnter the adjacency matrix (use 0 for no edge): \n"; 
+     
+      // Input the adjacency matrix 
+      for (i = 1; i <= n; i++) { 
+          for (j = 1; j <= n; j++) { 
+             cin >> cost[i][j]; 
+             if (cost[i][j] == 0) { 
+                 cost[i][j] = INT_MAX; // Replace 0 with a large number (infinity) 
+             } 
+          } 
+      } 
+ 
+       // Prim's Algorithm to find the MST 
+      while (ne < n) { 
+          min = INT_MAX; 
+         
+          // Search for the minimum edge 
+          for (i = 1; i <= n; i++) { 
+              for (j = 1; j <= n; j++) { 
+                  if (cost[i][j] < min) { 
+                      min = cost[i][j]; 
+                    
+   a = i; 
+                      b = j; 
+                } 
+             } 
+          } 
+ 
+          // Print the edge that is part of MST 
+          cout << "Edge (" << a << ", " << b << ") = " << min << endl; 
+ 
+          // Add the minimum weight edge to the total cost 
+          mincost += min; 
+ 
+          // Mark the edge as processed by setting the cost to a large number (effectively  removing it) 
+          cost[a][b] = cost[b][a] = INT_MAX; 
+ 
+          // Increment the number of edges in the MST 
+          ne++; 
+      } 
+ 
+      // Output the total minimum cost of the MST 
+      cout << "\nMinimum Spanning Tree total weight = " << mincost << endl; 
+ 
+      return 0; 
+  }
+
+
+
+
+/*Output: 
+ 
+  Enter the number of vertices: 4 
+ 
+  Enter the adjacency matrix (use 0 for no edge):  
+  0 10 999 30 
+  10 0 50 999 
+  999 50 0 20 
+  30 999 20 0 
+  Edge (1, 2) = 10 
+  Edge (1, 4) = 30 
+  Edge (3, 4) = 20 
+ 
+  Minimum Spanning Tree total weight = 60 */

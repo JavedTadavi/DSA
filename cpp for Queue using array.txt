@@ -1,0 +1,143 @@
+#include <iostream> 
+#include <cstdlib> 
+using namespace std; 
+ 
+int m;  // Size of the queue 
+ 
+class queue { 
+    int f, r, q[10], n;  // f = front, r = rear, q = array for queue, n = element to insert 
+     
+public: 
+    // Constructor to initialize front and rear to 0 
+    queue() { 
+        f = r = 0; 
+    } 
+ 
+    void insert();  // Insert function 
+    void del();     // Delete function 
+    void dis();     // Display function 
+}; 
+ 
+// Function to insert an element in the queue 
+void queue::insert() { 
+    if (r == m) { 
+        cout << "\nOverflow (Queue is full)"; 
+    } else { 
+        cout << "\nEnter Element in Queue = "; 
+        cin >> n;  // Read the element to be inserted 
+        if (f == 0) { 
+            f = 1;  // Set front to 1 if it's the first insertion 
+        } 
+     
+    r++;  // Move the rear to the next position 
+        
+ q[r] = n;  // Insert the element at the rear 
+     
+} 
+} 
+ 
+// Function to delete an element from the queue 
+void queue::del() { 
+    if (f == 0) { 
+        cout << "\nUnderflow (Queue is empty)"; 
+    } else { 
+        int n = q[f];  // Get the element at the front 
+        if (f == r) { 
+            // If front equals rear, the queue becomes empty after deletion 
+            f = r = 0; 
+        } else { 
+            f++;  // Move the front to the next position 
+        } 
+        cout << "\nDeleted element is " << n; 
+    } 
+} 
+ 
+// Function to display the elements in the queue 
+void queue::dis() { 
+    if (f == 0) { 
+        cout << "\nUnderflow (Queue is empty)"; 
+    } else { 
+        cout << "\nElements in queue are: "; 
+        for (int i = f; i <= r; i++) { 
+            cout << q[i] << "\t";  // Display each element from front to rear 
+        } 
+    } 
+} 
+ 
+// Main function 
+int main() { 
+    queue q;  // Create an object of the queue class 
+    int ch;   // Variable to store user's choice 
+ 
+    
+ cout << "Enter size of queue: "; 
+    cin >> m;  // Read the maximum size of the queue 
+ 
+    cout << "\n1. Insert\n2. Display\n3. Delete\n4. Exit\n"; 
+ 
+    
+     while (ch != 4) { 
+        cout << "\nEnter choice: "; 
+        cin >> ch;  // Read user's choice 
+ 
+        switch (ch) { 
+            case 1: 
+                q.insert();  // Call insert function 
+                break; 
+            case 2: 
+                q.dis();     // Call display function 
+                break; 
+            case 3: 
+                q.del();     // Call delete function 
+                break; 
+            case 4: 
+                exit(0);     // Exit the program 
+            default: 
+                cout << "\nInvalid choice!"; 
+        } 
+    } 
+ 
+    return 0; 
+}
+
+
+
+
+/*Output: 
+ 
+Enter size of queue: 5 
+ 
+1. Insert 
+2. Display 
+3. Delete 
+4. Exit 
+ 
+ 
+Enter choice: 1 
+ 
+Enter Element in Queue = 1 
+ 
+Enter choice: 1 
+ 
+Enter Element in Queue = 2 
+ 
+Enter choice: 1 
+ 
+Enter Element in Queue = 3 
+ 
+Enter choice: 1 
+ 
+Enter Element in Queue = 4 
+ 
+Enter choice: 1 
+ 
+Enter Element in Queue = 5 
+ 
+Enter choice: 2 
+ 
+Elements in queue are: 1        2       3       4       5 
+Enter choice: 3 
+ 
+ 
+Deleted element is 1 
+Enter choice:*/

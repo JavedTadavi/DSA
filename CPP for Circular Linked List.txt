@@ -1,0 +1,177 @@
+#include <iostream>
+#include <conio.h>
+#include <cstdlib>
+using namespace std;
+
+class node {
+    int info, c, i;
+    node *link;
+
+public:
+    node() { c = 0; }
+
+    void insert();
+    void display();
+    void del();
+};
+
+node *start = NULL, *temp = NULL, *move = NULL, *temp1 = NULL;
+
+void node::insert() {
+    int item;
+    node *p = new node;
+    cout << "\nEnter Element: ";
+    cin >> item;
+    p->info = item;
+    p->link = NULL;
+
+    if (start == NULL) {
+        start = p;
+        p->link = start;
+        c++;
+    } else {
+        temp = start;
+        while (temp->link != start)
+            temp = temp->link;
+        temp->link = p;
+        p->link = start;
+        c++;
+    }
+}
+
+void node::display() {
+    if (start == NULL) {
+        cout << "\nCircular Linked List is empty.";
+        return;
+    }
+
+    temp = start;
+    cout << temp->info; // Print the first node
+    move = temp->link;
+
+    while (move != start) { // Traverse and print other nodes
+        cout << " -> " << move->info;
+        move = move->link;
+    }
+
+    cout << "\nNumber of nodes in Circular Linked List are: " << c;
+}
+
+void node::del() {
+    int pos;
+    cout << "\nEnter Position to Delete: ";
+    cin >> pos;
+
+    if (start == NULL) {
+        cout << "\nCircular Linked List is empty.";
+        return;
+    }
+
+    if (pos > c || pos < 1) {
+        cout << "\nInvalid Position!";
+        return;
+    }
+
+    if (pos == 1) { // Delete first node
+        temp = start;
+        while (temp->link != start) // Move to the last node
+            temp = temp->link;
+
+        temp1 = start;
+        start = start->link;
+        temp->link = start;
+
+        cout << "\nDeleted Element is: " << temp1->info;
+        delete temp1;
+        c--;
+    } else { // Delete node at any other position
+        temp = start;
+        i = 1;
+        while (i < pos - 1) {
+            temp = temp->link;
+            i++;
+        }
+
+        temp1 = temp->link;
+        temp->link = temp1->link;
+
+        cout << "\nDeleted Element is: " << temp1->info;
+        delete temp1;
+        c--;
+    }
+
+    if (c == 0) {
+        start = NULL;
+    }
+}
+
+int main() {
+    node n;
+    int ch;
+
+    cout << "\n1. Insert\n2. Display\n3. Delete\n4. Exit";
+    while (true) {
+        cout << "\nEnter Choice: ";
+        cin >> ch;
+
+        switch (ch) {
+        case 1:
+            n.insert();
+            break;
+        case 2:
+            n.display();
+            break;
+        case 3:
+            n.del();
+            break;
+        case 4:
+            exit(0);
+        default:
+            cout << "\nInvalid Choice!";
+        }
+    }
+
+    getch();
+    return 0;
+}
+
+
+
+/*
+ Output: 
+                  1. Insert 
+2. Display 
+3. Delete 
+4. Exit 
+ 
+Enter Choice: 1 
+Enter Element: 
+10 
+ 
+Enter Choice: 1 
+Enter Element: 
+20 
+ 
+Enter Choice: 1 
+Enter Element: 
+30 
+ 
+Enter Choice: 2 
+10->20->30 
+Number of 
+nodes in CLL 
+are: 3 
+ 
+Enter Choice: 3 
+Enter Position: 
+2 
+Deleted 
+Element is 20 
+ 
+Enter Choice: 2 
+10->30 
+Number of 
+nodes in CLL 
+are: 2 
+                  Enter Choice: 4 
+Exit */

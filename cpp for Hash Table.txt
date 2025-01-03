@@ -1,0 +1,87 @@
+#include <iostream>
+#include <list>
+using namespace std;
+
+// HashTable class
+class HashTable {
+private:
+    static const int hashGroups = 10; // Number of groups (buckets)
+    list<int> table[hashGroups];      // Array of lists to handle collisions
+
+    // Hash function to calculate hash value
+    int hashFunction(int key) {
+        return key % hashGroups;
+    }
+
+public:
+    // Insert a key into the hash table
+    void insert(int key) {
+        int index = hashFunction(key);
+        table[index].push_back(key);
+    }
+
+    // Delete a key from the hash table
+    void remove(int key) {
+        int index = hashFunction(key);
+        table[index].remove(key);
+    }
+
+    // Search for a key in the hash table
+    bool search(int key) {
+        int index = hashFunction(key);
+        // Traditional iterator-based loop
+        for (list<int>::iterator it = table[index].begin(); it != table[index].end(); ++it) {
+            if (*it == key) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Display the hash table
+    void display() {
+        for (int i = 0; i < hashGroups; i++) {
+            cout << "Bucket " << i << ": ";
+            // Traditional iterator-based loop
+            for (list<int>::iterator it = table[i].begin(); it != table[i].end(); ++it) {
+                cout << *it << " -> ";
+            }
+            cout << "null" << endl;
+        }
+    }
+};
+
+int main() {
+    HashTable ht;
+
+    // Insert elements
+    ht.insert(10);
+    ht.insert(20);
+    ht.insert(15);
+    ht.insert(7);
+    ht.insert(25);
+
+    // Display hash table
+    cout << "Hash Table: " << endl;
+    ht.display();
+
+    // Search for a key
+    int key = 15;
+    cout << "\nSearching for key " << key << ": ";
+    if (ht.search(key)) {
+        cout << "Found" << endl;
+    } else {
+        cout << "Not Found" << endl;
+    }
+
+    // Remove a key
+    key = 20;
+    cout << "\nRemoving key " << key << endl;
+    ht.remove(key);
+
+    // Display updated hash table
+    cout << "\nUpdated Hash Table: " << endl;
+    ht.display();
+
+    return 0;
+}

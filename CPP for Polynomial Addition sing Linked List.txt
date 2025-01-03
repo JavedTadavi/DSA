@@ -1,0 +1,119 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for representing a term in the polynomial
+struct Node {
+    int coeff;  // Coefficient of the term
+    int pow;    // Power of the term
+    Node* next; // Pointer to the next node
+};
+
+// Function to create a new node
+void create_node(int coeff, int pow, Node** head) {
+    if (coeff == 0) return;  // Don't add terms with zero coefficients
+
+    Node* newNode = new Node(); // Allocate memory for the new node
+    newNode->coeff = coeff;     // Set coefficient
+    newNode->pow = pow;         // Set power
+    newNode->next = NULL;       // Initialize next pointer to NULL
+
+    if (*head == NULL) {
+        *head = newNode; // If the list is empty, set head to newNode
+    } else {
+        Node* temp = *head;
+        while (temp->next != NULL) {
+            temp = temp->next; // Traverse to the end of the list
+        }
+        temp->next = newNode; // Link the new node at the end
+    }
+}
+
+// Function to add two polynomials
+void polyadd(Node* poly1, Node* poly2, Node** result) {
+    // Traverse both polynomials and add corresponding terms
+    while (poly1 != NULL && poly2 != NULL) {
+        if (poly1->pow > poly2->pow) {
+            create_node(poly1->coeff, poly1->pow, result);
+            poly1 = poly1->next;
+        } else if (poly1->pow < poly2->pow) {
+            create_node(poly2->coeff, poly2->pow, result);
+            poly2 = poly2->next;
+        } else {
+            create_node(poly1->coeff + poly2->coeff, poly1->pow, result);
+            poly1 = poly1->next;
+            poly2 = poly2->next;
+        }
+    }
+
+    // Add remaining terms of poly1 if any
+    while (poly1 != NULL) {
+        create_node(poly1->coeff, poly1->pow, result);
+        poly1 = poly1->next;
+    }
+
+    // Add remaining terms of poly2 if any
+    while (poly2 != NULL) {
+        create_node(poly2->coeff, poly2->pow, result);
+        poly2 = poly2->next;
+    }
+}
+
+// Function to display a polynomial
+void show(Node* node) {
+    if (node == NULL) {
+        cout << "0" << endl;
+        return;
+    }
+
+    bool firstTerm = true;  // To handle the sign of the first term
+
+    while (node != NULL) {
+        // For the first term, do not print the '+' sign
+        if (firstTerm) {
+            if (node->coeff < 0) {
+                cout << node->coeff << "x^" << node->pow;
+            } else {
+                cout << node->coeff << "x^" << node->pow;
+            }
+            firstTerm = false;
+        } else {
+            // For subsequent terms, print '+' or '-' based on the coefficient
+            if (node->coeff > 0) {
+                cout << " + " << node->coeff << "x^" << node->pow;
+            } else if (node->coeff < 0) {
+                cout << " - " << -node->coeff << "x^" << node->pow;
+            }
+        }
+        node = node->next;
+    }
+    cout << endl;
+}
+
+int main() {
+    Node *poly1 = NULL, *poly2 = NULL, *result = NULL;
+
+    // Create first polynomial: 5x^2 + 4x^1 + 2x^0
+    create_node(5, 2, &poly1);
+    create_node(4, 1, &poly1);
+    create_node(2, 0, &poly1);
+
+    // Create second polynomial: -5x^1 - 5x^0
+    create_node(-5, 1, &poly2);
+    create_node(-5, 0, &poly2);
+
+    // Display the polynomials
+    cout << "1st Polynomial: ";
+    show(poly1);
+
+    cout << "2nd Polynomial: ";
+    show(poly2);
+
+    // Add the two polynomials
+    polyadd(poly1, poly2, &result);
+
+    // Display the result
+    cout << "Resultant Polynomial: ";
+    show(result);
+
+    return 0;
+}

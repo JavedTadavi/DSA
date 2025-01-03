@@ -1,0 +1,124 @@
+#include <iostream>
+#include <vector>
+#include <climits>
+using namespace std;
+
+vector<int> radixSort(vector<int> arr, int size);
+vector<int> countSort(vector<int> arr, int size, int exponent);
+int maximum(const vector<int>& arr);
+int minimum(const vector<int>& arr);
+
+int main() {
+    int size;
+    cout << "Enter the array size: ";
+    cin >> size;
+
+    vector<int> arr(size);
+    cout << "Enter the array elements:\n";
+    for (int i = 0; i < size; i++) {
+        cout << "arr[" << i << "] = ";
+        cin >> arr[i];
+    }
+
+    cout << "\nArray before sorting:\n";
+    for (int i = 0; i < size; i++) {
+        cout << "arr[" << i << "] = " << arr[i] << endl;
+    }
+
+    arr = radixSort(arr, size);
+
+    cout << "\nArray after sorting:\n";
+    for (int i = 0; i < size; i++) {
+        cout << "arr[" << i << "] = " << arr[i] << endl;
+    }
+
+    return 0;
+}
+
+vector<int> radixSort(vector<int> arr, int size) {
+    int maxOfArr = maximum(arr);
+    int exponent = 1;
+
+    while (exponent <= maxOfArr) {
+        arr = countSort(arr, size, exponent);
+        exponent *= 10;
+    }
+
+    return arr;
+}
+
+vector<int> countSort(vector<int> arr, int size, int exponent) {
+    int range = 10; // For decimal numbers (0-9)
+    vector<int> frequencyArray(range, 0);
+    vector<int> newArr(size);
+
+    // Count occurrences of digits at the current place
+    for (int i = 0; i < size; i++) {
+        frequencyArray[(arr[i] / exponent) % 10]++;
+    }
+
+    // Update frequency array to store cumulative counts
+    for (int i = 1; i < range; i++) {
+        frequencyArray[i] += frequencyArray[i - 1];
+    }
+
+    // Build the sorted array
+    for (int i = size - 1; i >= 0; i--) {
+        int pos = frequencyArray[(arr[i] / exponent) % 10] - 1;
+        newArr[pos] = arr[i];
+        frequencyArray[(arr[i] / exponent) % 10]--;
+    }
+
+    return newArr;
+}
+
+int maximum(const vector<int>& arr) {
+    int max = INT_MIN;
+    for (int i = 0; i < arr.size(); i++) {
+        int num = arr[i];
+        if (num > max) {
+            max = num;
+        }
+    }
+    return max;
+}
+
+int minimum(const vector<int>& arr) {
+    int min = INT_MAX;
+    for (int i = 0; i < arr.size(); i++) {
+        int num = arr[i];
+        if (num < min) {
+            min = num;
+        }
+    }
+    return min;
+}
+
+
+
+
+/*Output: 
+Enter the array size: 6 
+Enter the array elements: 
+arr[0] = 170 
+arr[1] = 45 
+arr[2] = 75 
+arr[3] = 90 
+arr[4] = 802 
+arr[5] = 24 
+ 
+  Array before sorting: 
+arr[0] = 170 
+arr[1] = 45 
+arr[2] = 75 
+arr[3] = 90 
+arr[4] = 802 
+arr[5] = 24 
+ 
+Array after sorting: 
+arr[0] = 24 
+arr[1] = 45 
+arr[2] = 75 
+arr[3] = 90 
+arr[4] = 170 
+arr[5] = 802 */
